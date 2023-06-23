@@ -11,6 +11,7 @@ import dataJson from './src/data/data.json';
 const App = () => {
   const [coins, setCoins] = useState([]);
   const [search, setSearch] = useState('');
+  const [refreshing, setRefreshing] = useState(false);
 
   const getData = async () => {
     const res = await fetch(
@@ -61,6 +62,13 @@ const App = () => {
           data={coinFilter}
           renderItem={({ item }) => {
             return <CoinItem coin={item} />;
+          }}
+          showsVerticalScrollIndicator={false}
+          refreshing={refreshing}
+          onRefresh={async () => {
+            setRefreshing(true);
+            await getData();
+            setRefreshing(false);
           }}
         />
       )}
